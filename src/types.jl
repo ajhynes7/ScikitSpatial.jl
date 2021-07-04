@@ -19,5 +19,9 @@ function Base.getproperty(line::Line, symbol::Symbol)
         return length(line.point)
     end
 
+    if symbol === :vector
+        return line.direction
+    end
+
     return getfield(line, symbol)
 end
