@@ -1,4 +1,4 @@
 struct Line
-    point
-    direction
+    point::AbstractVector
+    direction::AbstractVector
 end
