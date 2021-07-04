@@ -11,3 +11,13 @@ struct Line
         new(point, direction)
     end
 end
+
+
+function Base.getproperty(line::Line, symbol::Symbol)
+
+    if symbol === :dimension
+        return length(line.point)
+    end
+
+    return getfield(line, symbol)
+end
