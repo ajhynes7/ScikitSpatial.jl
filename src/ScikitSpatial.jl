@@ -12,11 +12,19 @@ export
     angle_between,
 
     # Comparison
-    is_zero
+    is_zero,
+
+    # Projection
+    project,
+
+    # Transformation
+    Vector
 
 
 include("types.jl")
 include("measurement.jl")
 include("comparison.jl")
+include("projection.jl")
+include("transformation.jl")
 
 end
