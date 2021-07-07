@@ -20,7 +20,7 @@ using StaticArrays
     @test line.vector isa SVector{2, Int}
     @test line.vector == [1, 0]
 
-    # The point and direction must be abstract vectors.
+    # The point and direction must be vectors (one-dimensional arrays).
     @test_throws MethodError Line(0, [1, 0])
     @test_throws MethodError Line([0, 0], 1)
     @test_throws MethodError Line([0 0; 0 0], [1, 0])
