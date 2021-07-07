@@ -1,19 +1,28 @@
-struct Line
-    point::AbstractVector
-    direction::AbstractVector
+struct Line{N, T}
 
-    function Line(point::AbstractVector, direction::AbstractVector; kwargs...)
+    point::SVector{N, T}
+    direction::SVector{N, T}
 
-        if length(point) != length(direction)
-            throw(ArgumentError("The point and direction must have the same length."))
-        end
+    function Line(point::SVector{N, T}, direction::SVector{N, T}; kwargs...) where {N, T}
 
         if is_zero(direction; kwargs...)
             throw(ArgumentError("The direction must have a non-zero magnitude."))
         end
 
-        new(point, direction)
+        new{N, T}(point, direction)
     end
+end
+
+
+function Line(point::AbstractVector, direction::AbstractVector; kwargs...)
+
+    n_elements = length(point)
+    type_elements = eltype(point)
+
+    point_static = SVector{n_elements, type_elements}(point)
+    direction_static = SVector{n_elements, type_elements}(direction)
+
+    return Line(point_static, direction_static; kwargs...)
 end
 
 

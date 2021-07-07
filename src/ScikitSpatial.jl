@@ -1,6 +1,8 @@
 module ScikitSpatial
 
 using LinearAlgebra
+using StaticArrays
+
 
 export
 
