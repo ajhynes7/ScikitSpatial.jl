@@ -1,5 +1,5 @@
 function project(u::AbstractVector, v::AbstractVector)
-    return u ⋅ v / v ⋅ v * v
+    return (u ⋅ v) / (v ⋅ v) * v
 end
 
 
