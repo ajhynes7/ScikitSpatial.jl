@@ -1,1 +1,3 @@
-Vector(point_a, point_b) = point_b - point_a
+function Vector(point_a::AbstractVector, point_b::AbstractVector)
+    return point_b - point_a
+end
