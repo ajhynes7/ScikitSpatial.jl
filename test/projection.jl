@@ -40,8 +40,31 @@ end
     line_diag_3d = Line([0, 0, 0], [1, 1, 1])
     @test project([1, 0, 0], line_diag_3d) == 1/3 * ones(3)
 
-    # The magnitude of the direction vector should make no difference.
+    # The magnitude of the direction vector should not matter.
     @test project([1, 0, 0], Line([0, 0, 0], -2 * ones(Int, 3))) == 1/3 * ones(3)
 
     @test project([50, 10], Line([1, -5], [0, 3])) == [1, 10]
+end
+
+
+@testset "Point-plane projection" begin
+
+    plane_xy = Plane([0, 0, 0], [0, 0, 1])
+
+    @test project([0, 0, 0], plane_xy) == [0, 0, 0]
+    @test project([1, 0, 0], plane_xy) == [1, 0, 0]
+    @test project([50, -34, 0], plane_xy) == [50, -34, 0]
+    @test project([50, -34, 50], plane_xy) == [50, -34, 0]
+    @test project([50, -34, -150], plane_xy) == [50, -34, 0]
+
+    # The magnitude of the plane normal should not matter.
+    @test project([50, -34, -150], Plane([0, 0, 0], [0, 0, 5])) == [50, -34, 0]
+    @test project([50, -34, -150], Plane([0, 0, 0], [0, 0, -5])) == [50, -34, 0]
+
+    @test project([50, -34, -150], Plane([0, 0, -5], [0, 0, 1])) == [50, -34, -5]
+    @test project([50, -34, -150], Plane([18, 23, -5], [0, 0, 1])) == [50, -34, -5]
+
+    @test project([50, -34, -150], Plane([18, 23, -5], [0, 0, 1])) == [50, -34, -5]
+
+    @test project([7, -3, 5], Plane([1, 2, 3], [1, 1, 1])) == [6, -4, 4]
 end
