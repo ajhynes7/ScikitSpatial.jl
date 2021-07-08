@@ -8,6 +8,7 @@ export
 
     # Composite types (structs)
     Line,
+    Plane,
 
     # Measurement
     cosine_similarity,

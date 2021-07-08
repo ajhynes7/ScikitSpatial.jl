@@ -1,40 +1,50 @@
-struct Line{N, T}
+abstract type AbstractSpatial end
+abstract type AbstractHyperplane <: AbstractSpatial end
 
-    point::SVector{N, T}
-    direction::SVector{N, T}
+abstract type AbstractLine <: AbstractHyperplane end
+abstract type AbstractPlane <: AbstractHyperplane end
 
-    function Line(point::SVector{N, T}, direction::SVector{N, T}; kwargs...) where {N, T}
 
-        if is_zero(direction; kwargs...)
-            throw(ArgumentError("The direction must have a non-zero magnitude."))
+for (type, supertype) in zip([:Line, :Plane], [:AbstractLine, :AbstractPlane])
+
+    @eval struct $type{N, T} <: $supertype
+
+        point::SVector{N, T}
+        vector::SVector{N, T}
+
+        function $type(point::SVector{N, T}, vector::SVector{N, T}; kwargs...) where {N, T}
+
+            if is_zero(vector; kwargs...)
+                throw(ArgumentError("The vector must have a non-zero magnitude."))
+            end
+
+            new{N, T}(point, vector)
+        end
+    end
+
+    @eval function $type(point::AbstractVector, vector::AbstractVector; kwargs...)
+
+        n_elements = length(point)
+        type_elements = eltype(point)
+
+        point_static = SVector{n_elements, type_elements}(point)
+        vector_static = SVector{n_elements, type_elements}(vector)
+
+        return $type(point_static, vector_static; kwargs...)
+    end
+end
+
+
+for (type, alias) in zip(
+    (:AbstractLine, :AbstractPlane),
+    (:(:direction), :(:normal)),
+)
+    @eval function Base.getproperty(obj::$type, symbol::Symbol)
+
+        if symbol === $alias
+            return obj.vector
         end
 
-        new{N, T}(point, direction)
+        return getfield(obj, symbol)
     end
-end
-
-
-function Line(point::AbstractVector, direction::AbstractVector; kwargs...)
-
-    n_elements = length(point)
-    type_elements = eltype(point)
-
-    point_static = SVector{n_elements, type_elements}(point)
-    direction_static = SVector{n_elements, type_elements}(direction)
-
-    return Line(point_static, direction_static; kwargs...)
-end
-
-
-function Base.getproperty(line::Line, symbol::Symbol)
-
-    if symbol === :dimension
-        return length(line.point)
-    end
-
-    if symbol === :vector
-        return line.direction
-    end
-
-    return getfield(line, symbol)
 end
