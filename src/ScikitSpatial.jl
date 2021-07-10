@@ -16,6 +16,7 @@ export
 
     # Comparison
     is_zero,
+    is_parallel,
 
     # Projection
     project,
