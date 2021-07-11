@@ -27,4 +27,15 @@ end
     @test !is_parallel([1, 0], [1, 1])
     @test !is_parallel([1, 0], [1, 1e-2])
     @test is_parallel([1, 0], [1, 1e-2]; atol=1e-2)
+
+    # The zero vector is parallel to all vectors.
+    @test is_parallel([0, 0], [1, 0])
+    @test is_parallel([0, 0], [5, 3])
+    @test is_parallel([3, 4], [0, 0])
+    @test is_parallel([3, 4, -21], [0, 0, 0])
+
+    @test !is_parallel([0, 1e-2], [1, 0])
+    @test is_parallel([0, 1e-2], [1, 0]; atol=1e-2)
+    @test !is_parallel([1, 0], [0, 1e-2])
+    @test is_parallel([1, 0], [0, 1e-2]; atol=1e-2)
 end
