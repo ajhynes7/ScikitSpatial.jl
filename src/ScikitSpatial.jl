@@ -22,6 +22,9 @@ export
     # Projection
     project,
 
+    # Intersection
+    intersect,
+
     # Transformation
     Vector
 
@@ -30,6 +33,7 @@ include("types.jl")
 include("measurement.jl")
 include("comparison.jl")
 include("projection.jl")
+include("intersection.jl")
 include("transformation.jl")
 
 end
