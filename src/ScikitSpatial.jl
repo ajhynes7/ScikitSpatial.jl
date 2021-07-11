@@ -17,6 +17,7 @@ export
     # Comparison
     is_zero,
     is_parallel,
+    is_perpendicular,
 
     # Projection
     project,

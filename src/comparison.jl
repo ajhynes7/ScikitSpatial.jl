@@ -13,3 +13,8 @@ function is_parallel(u, v; kwargs...)
 
     return isapprox(abs(similarity), 1; kwargs...)
 end
+
+
+function is_perpendicular(u, v; kwargs...)
+    return isapprox(u ⋅ v, 0; kwargs...)
+end

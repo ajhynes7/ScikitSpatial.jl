@@ -39,3 +39,17 @@ end
     @test !is_parallel([1, 0], [0, 1e-2])
     @test is_parallel([1, 0], [0, 1e-2]; atol=1e-2)
 end
+
+
+@testset "Is Perpendicular" begin
+    @test is_perpendicular([1, 0], [0, 1])
+    @test is_perpendicular([0, 1], [-1, 0])
+    @test !is_perpendicular([1, 0], [1, 0])
+    @test is_perpendicular([50, 0], [0, 2])
+
+    @test is_perpendicular([5, 2], [2, -5])
+    @test is_perpendicular([1, 1, 0], [0, 0, 1])
+
+    @test !is_perpendicular([1, 0], [1e-2, 1])
+    @test is_perpendicular([1, 0], [1e-2, 1]; atol=1e-2)
+end
