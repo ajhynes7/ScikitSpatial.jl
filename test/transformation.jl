@@ -9,21 +9,58 @@ end
 
 
 @testset "Centroid of points" begin
-    @test centroid([0 0; 1 0]) == [0.5 0]
-    @test centroid([0 -1; 1 3; 2 5]) ≈ [1 7/3]
-    @test centroid([0 -1 2; 1 3 5; 2 5 9]) ≈ [1 7/3 16/3]
+    points = [
+        0 1;
+        0 0;
+    ]
+    centroid_  = centroid(points)
+
+    # Use type assertion to ensure centroid is a vector (not matrix).
+    centroid_::AbstractVector
+
+    @test centroid_ == [0.5, 0]
+
+    points = [
+        0 1 2;
+        -1 3 5;
+    ]
+    @test centroid(points) ≈ [1, 7/3]
+
+    points = [
+        0 1 2;
+        -1 3 5;
+        2 5 9;
+    ]
+    @test centroid(points) ≈ [1, 7/3, 16/3]
 end
 
 
 @testset "Mean center points" begin
-    @test mean_center([1 0; 2 1; 3 2]) == [-1 -1; 0 0; 1 1]
-    @test mean_center([
-        -2 0 2 5;
-        4 1 -3 2
-    ]) == [
-        -3 -0.5 2.5 1.5;
-        3 0.5 -2.5 -1.5
+
+    points = [
+        1 2 3;
+        0 1 2;
     ]
+    points_centered_expected = [
+        -1 0 1;
+        -1 0 1;
+    ]
+
+    @test mean_center(points) == points_centered_expected
+
+    points = [
+        -2 4;
+        0 1;
+        2 -3;
+        5 2;
+    ]
+    points_centered_expected = [
+        -3 3;
+        -0.5 0.5;
+        2.5 -2.5;
+        1.5 -1.5;
+    ]
+    @test mean_center(points) == points_centered_expected
 end
 
 

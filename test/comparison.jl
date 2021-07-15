@@ -58,45 +58,48 @@ end
 @testset "Are coplanar" begin
 
     # Any three or fewer points are coplanar.
+
+    points = hcat([0; 0; 1])
+    @test are_coplanar(points)
+
     points = [
-        0 0 1;
+        0 1;
+        0 1;
+        1 2;
     ]
     @test are_coplanar(points)
 
     points = [
-        0 0 1;
-        1 1 2;
+        0 1 5;
+        0 1 2;
+        1 2 7;
     ]
     @test are_coplanar(points)
 
+    # points = [
+    #     0 0 1;
+    #     1 1 0;
+    #     5 2 0;
+    #     6 -2 0;
+    # ]
     points = [
-        0 0 1;
-        1 1 2;
-        5 2 7;
-    ]
-    @test are_coplanar(points)
-
-    points = [
-        0 0 1;
-        1 1 0;
-        5 2 0;
-        6 -2 0;
+        0 1 5 6;
+        0 1 2 -2;
+        1 0 0 0;
     ]
     @test !are_coplanar(points)
 
     points = [
-        0 0 0;
-        1 1 1;
-        2 2 2;
-        3 3 3;
+        0 1 2 3;
+        0 1 2 3;
+        0 1 2 3;
     ]
     @test are_coplanar(points)
 
     points = [
-        5 7 4;
-        1 1 4;
-        5 2 4;
-        6 -2 4;
+        5 1 5 6;
+        7 1 2 -2;
+        4 4 4 4;
     ]
     @test are_coplanar(points)
 
@@ -107,6 +110,11 @@ end
         2 2 2;
         3 3 3;
         3 3 3;
+    ]
+    points = [
+        0 1 2 3;
+        0 1 2 3;
+        0 1 2 3;
     ]
     @test are_coplanar(points)
 end

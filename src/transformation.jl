@@ -12,7 +12,7 @@ end
 
 
 function centroid(points::AbstractMatrix)
-    return mean(points, dims=1)
+    return vec(mean(points, dims=2))
 end
 
 
