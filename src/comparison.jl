@@ -3,7 +3,7 @@ function is_zero(v; kwargs...)
 end
 
 
-function is_parallel(u, v; kwargs...)
+function are_parallel(u, v; kwargs...)
 
     if is_zero(u; kwargs...) || is_zero(v; kwargs...)
         return true
@@ -15,7 +15,7 @@ function is_parallel(u, v; kwargs...)
 end
 
 
-function is_perpendicular(u, v; kwargs...)
+function are_perpendicular(u, v; kwargs...)
     return isapprox(u ⋅ v, 0; kwargs...)
 end
 

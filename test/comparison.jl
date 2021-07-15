@@ -14,44 +14,44 @@ end
 
 
 @testset "Is Parallel" begin
-    @test is_parallel([1, 0], [1, 0])
-    @test is_parallel([1, 0], [-1, 0])
-    @test is_parallel([1, 0], [2, 0])
+    @test are_parallel([1, 0], [1, 0])
+    @test are_parallel([1, 0], [-1, 0])
+    @test are_parallel([1, 0], [2, 0])
 
-    @test is_parallel([1, 5], [1, 5])
-    @test is_parallel([1, 5], [3, 15])
-    @test is_parallel([1, 5], [-5, -25])
+    @test are_parallel([1, 5], [1, 5])
+    @test are_parallel([1, 5], [3, 15])
+    @test are_parallel([1, 5], [-5, -25])
 
-    @test is_parallel([1, 2, 3], [3, 6, 9])
+    @test are_parallel([1, 2, 3], [3, 6, 9])
 
-    @test !is_parallel([1, 0], [1, 1])
-    @test !is_parallel([1, 0], [1, 1e-2])
-    @test is_parallel([1, 0], [1, 1e-2]; atol=1e-2)
+    @test !are_parallel([1, 0], [1, 1])
+    @test !are_parallel([1, 0], [1, 1e-2])
+    @test are_parallel([1, 0], [1, 1e-2]; atol=1e-2)
 
     # The zero vector is parallel to all vectors.
-    @test is_parallel([0, 0], [1, 0])
-    @test is_parallel([0, 0], [5, 3])
-    @test is_parallel([3, 4], [0, 0])
-    @test is_parallel([3, 4, -21], [0, 0, 0])
+    @test are_parallel([0, 0], [1, 0])
+    @test are_parallel([0, 0], [5, 3])
+    @test are_parallel([3, 4], [0, 0])
+    @test are_parallel([3, 4, -21], [0, 0, 0])
 
-    @test !is_parallel([0, 1e-2], [1, 0])
-    @test is_parallel([0, 1e-2], [1, 0]; atol=1e-2)
-    @test !is_parallel([1, 0], [0, 1e-2])
-    @test is_parallel([1, 0], [0, 1e-2]; atol=1e-2)
+    @test !are_parallel([0, 1e-2], [1, 0])
+    @test are_parallel([0, 1e-2], [1, 0]; atol=1e-2)
+    @test !are_parallel([1, 0], [0, 1e-2])
+    @test are_parallel([1, 0], [0, 1e-2]; atol=1e-2)
 end
 
 
 @testset "Is Perpendicular" begin
-    @test is_perpendicular([1, 0], [0, 1])
-    @test is_perpendicular([0, 1], [-1, 0])
-    @test !is_perpendicular([1, 0], [1, 0])
-    @test is_perpendicular([50, 0], [0, 2])
+    @test are_perpendicular([1, 0], [0, 1])
+    @test are_perpendicular([0, 1], [-1, 0])
+    @test !are_perpendicular([1, 0], [1, 0])
+    @test are_perpendicular([50, 0], [0, 2])
 
-    @test is_perpendicular([5, 2], [2, -5])
-    @test is_perpendicular([1, 1, 0], [0, 0, 1])
+    @test are_perpendicular([5, 2], [2, -5])
+    @test are_perpendicular([1, 1, 0], [0, 0, 1])
 
-    @test !is_perpendicular([1, 0], [1e-2, 1])
-    @test is_perpendicular([1, 0], [1e-2, 1]; atol=1e-2)
+    @test !are_perpendicular([1, 0], [1e-2, 1])
+    @test are_perpendicular([1, 0], [1e-2, 1]; atol=1e-2)
 end
 
 
