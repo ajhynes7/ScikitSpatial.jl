@@ -25,3 +25,20 @@ end
         3 0.5 -2.5 -1.5
     ]
 end
+
+
+@testset "To point" begin
+    line = Line([0, 0], [1, 0])
+
+    @test to_point(line) == [1, 0]
+    @test to_point(line; t=1) == [1, 0]
+    @test to_point(line; t=2) == [2, 0]
+    @test to_point(line; t=-1) == [-1, 0]
+
+    line = Line([1, 2, 3], [1, 2, 3])
+
+    @test to_point(line) == [2, 4, 6]
+    @test to_point(line; t=1) == [2, 4, 6]
+    @test to_point(line; t=2) == [3, 6, 9]
+    @test to_point(line; t=-1) == [0, 0, 0]
+end
