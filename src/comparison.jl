@@ -18,3 +18,11 @@ end
 function is_perpendicular(u, v; kwargs...)
     return isapprox(u ⋅ v, 0; kwargs...)
 end
+
+
+function are_coplanar(points::AbstractMatrix)
+    point_1 = points[1, :]
+    vectors = points .- reshape(point_1, 1, length(point_1))
+
+    return rank(vectors) <= 2
+end

@@ -53,3 +53,60 @@ end
     @test !is_perpendicular([1, 0], [1e-2, 1])
     @test is_perpendicular([1, 0], [1e-2, 1]; atol=1e-2)
 end
+
+
+@testset "Are coplanar" begin
+
+    # Any three or fewer points are coplanar.
+    points = [
+        0 0 1;
+    ]
+    @test are_coplanar(points)
+
+    points = [
+        0 0 1;
+        1 1 2;
+    ]
+    @test are_coplanar(points)
+
+    points = [
+        0 0 1;
+        1 1 2;
+        5 2 7;
+    ]
+    @test are_coplanar(points)
+
+    points = [
+        0 0 1;
+        1 1 0;
+        5 2 0;
+        6 -2 0;
+    ]
+    @test !are_coplanar(points)
+
+    points = [
+        0 0 0;
+        1 1 1;
+        2 2 2;
+        3 3 3;
+    ]
+    @test are_coplanar(points)
+
+    points = [
+        5 7 4;
+        1 1 4;
+        5 2 4;
+        6 -2 4;
+    ]
+    @test are_coplanar(points)
+
+    # Duplicates do not matter.
+    points = [
+        0 0 0;
+        1 1 1;
+        2 2 2;
+        3 3 3;
+        3 3 3;
+    ]
+    @test are_coplanar(points)
+end

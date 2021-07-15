@@ -18,6 +18,7 @@ export
     is_zero,
     is_parallel,
     is_perpendicular,
+    are_coplanar,
 
     # Projection
     project,
