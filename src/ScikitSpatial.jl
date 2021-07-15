@@ -27,7 +27,9 @@ export
     intersect,
 
     # Transformation
-    Vector
+    Vector,
+    centroid,
+    mean_center
 
 
 include("types.jl")
