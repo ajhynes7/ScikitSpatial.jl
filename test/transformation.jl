@@ -10,8 +10,8 @@ end
 
 @testset "Centroid of points" begin
     @test centroid([0 0; 1 0]) == [0.5 0]
-    @test centroid([0 -1; 1 3; 2 5]) == [1 7/3]
-    @test centroid([0 -1 2; 1 3 5; 2 5 9]) == [1 7/3 16/3]
+    @test centroid([0 -1; 1 3; 2 5]) ≈ [1 7/3]
+    @test centroid([0 -1 2; 1 3 5; 2 5 9]) ≈ [1 7/3 16/3]
 end
 
 
