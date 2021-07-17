@@ -16,8 +16,9 @@ export
 
     # Comparison
     is_zero,
-    is_parallel,
-    is_perpendicular,
+    are_parallel,
+    are_perpendicular,
+    are_coplanar,
 
     # Projection
     project,
@@ -26,7 +27,10 @@ export
     intersect,
 
     # Transformation
-    Vector
+    Vector,
+    to_point,
+    centroid,
+    mean_center
 
 
 include("types.jl")

@@ -3,7 +3,7 @@ function is_zero(v; kwargs...)
 end
 
 
-function is_parallel(u, v; kwargs...)
+function are_parallel(u, v; kwargs...)
 
     if is_zero(u; kwargs...) || is_zero(v; kwargs...)
         return true
@@ -15,6 +15,28 @@ function is_parallel(u, v; kwargs...)
 end
 
 
-function is_perpendicular(u, v; kwargs...)
+function are_perpendicular(u, v; kwargs...)
     return isapprox(u ⋅ v, 0; kwargs...)
+end
+
+
+function are_coplanar(points::AbstractMatrix)
+    point_1 = points[:, 1]
+    vectors = points .- point_1
+
+    return rank(vectors) <= 2
+end
+
+
+function are_coplanar(line_a::AbstractLine, line_b::AbstractLine)
+
+    point_a1 = line_a.point
+    point_a2 = to_point(line_a)
+
+    point_b1 = line_b.point
+    point_b2 = to_point(line_b)
+
+    points = hcat(point_a1, point_a2, point_b1, point_b2)
+
+    return are_coplanar(points)
 end
