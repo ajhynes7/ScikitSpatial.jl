@@ -30,7 +30,10 @@ export
     Vector,
     to_point,
     centroid,
-    mean_center
+    mean_center,
+
+    # Plotting
+    plot
 
 
 include("types.jl")
@@ -39,5 +42,6 @@ include("comparison.jl")
 include("projection.jl")
 include("intersection.jl")
 include("transformation.jl")
+include("plotting.jl")
 
 end
