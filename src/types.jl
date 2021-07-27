@@ -48,3 +48,20 @@ for (type, alias) in zip(
         return getfield(obj, symbol)
     end
 end
+
+
+struct Circle{N, T} <: AbstractSpatial
+    point::SVector{N, T}
+    radius::Real
+end
+
+
+function Circle(point::AbstractVector, radius::Real)
+
+    n_elements = length(point)
+    type_elements = eltype(point)
+
+    point_static = SVector{n_elements, type_elements}(point)
+
+    return Circle(point_static, radius)
+end
