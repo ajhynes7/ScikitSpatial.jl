@@ -29,6 +29,7 @@ export
 
     # Transformation
     Vector,
+    unit,
     to_point,
     centroid,
     mean_center

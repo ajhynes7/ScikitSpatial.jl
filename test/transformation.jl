@@ -8,6 +8,20 @@ import ScikitSpatial: Vector
 end
 
 
+@testset "Unit" begin
+    for (vector, vector_unit_expected) in [
+        ([1, 0], [1, 0])
+        ([2, 0], [1, 0])
+        ([5, 0], [1, 0])
+        ([-5, 0], [-1, 0])
+        ([1, 1], √2 / 2 * ones(2))
+        ([1, 1, 1], √3 / 3 * ones(3))
+    ]
+        @test unit(vector) ≈ vector_unit_expected
+    end
+end
+
+
 @testset "Centroid of points" begin
     points = [
         0 1;
