@@ -1,8 +1,11 @@
 abstract type AbstractSpatial end
+
 abstract type AbstractHyperplane <: AbstractSpatial end
+abstract type AbstractHypersphere <: AbstractSpatial end
 
 abstract type AbstractLine <: AbstractHyperplane end
 abstract type AbstractPlane <: AbstractHyperplane end
+abstract type AbstractCircle <: AbstractHypersphere end
 
 
 for (type, supertype) in zip([:Line, :Plane], [:AbstractLine, :AbstractPlane])
@@ -50,7 +53,7 @@ for (type, alias) in zip(
 end
 
 
-struct Circle{N, T} <: AbstractSpatial
+struct Circle{N, T} <: AbstractCircle
     point::SVector{N, T}
     radius::Real
 end
