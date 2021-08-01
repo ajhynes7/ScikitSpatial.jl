@@ -9,6 +9,7 @@ export
     # Composite types (structs)
     Line,
     Plane,
+    Circle,
 
     # Measurement
     cosine_similarity,
@@ -28,6 +29,7 @@ export
 
     # Transformation
     Vector,
+    unit,
     to_point,
     centroid,
     mean_center

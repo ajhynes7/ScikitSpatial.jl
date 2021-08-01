@@ -1,8 +1,11 @@
 abstract type AbstractSpatial end
+
 abstract type AbstractHyperplane <: AbstractSpatial end
+abstract type AbstractHypersphere <: AbstractSpatial end
 
 abstract type AbstractLine <: AbstractHyperplane end
 abstract type AbstractPlane <: AbstractHyperplane end
+abstract type AbstractCircle <: AbstractHypersphere end
 
 
 for (type, supertype) in zip([:Line, :Plane], [:AbstractLine, :AbstractPlane])
@@ -47,4 +50,21 @@ for (type, alias) in zip(
 
         return getfield(obj, symbol)
     end
+end
+
+
+struct Circle{N, T} <: AbstractCircle
+    point::SVector{N, T}
+    radius::Real
+end
+
+
+function Circle(point::AbstractVector, radius::Real)
+
+    n_elements = length(point)
+    type_elements = eltype(point)
+
+    point_static = SVector{n_elements, type_elements}(point)
+
+    return Circle(point_static, radius)
 end

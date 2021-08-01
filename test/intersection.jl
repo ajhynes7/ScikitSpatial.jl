@@ -44,3 +44,27 @@ end
     intersect(line_almost_parallel, plane)
     @test_throws ArgumentError(message) intersect(line_almost_parallel, plane; atol=1e-2)
 end
+
+
+
+@testset "Line-circle intersection" begin
+
+    for (circle, line, point_expected_a, point_expected_b) in [
+        (Circle([0, 0], 1), Line([0, 0], [1, 0]), [-1, 0], [1, 0]),
+        (Circle([0, 0], 1), Line([0, 0], [0, 1]), [0, -1], [0, 1]),
+        (Circle([0, 0], 1), Line([0, 1], [1, 0]), [0, 1], [0, 1]),
+        (
+            Circle([0, 0], 1),
+            Line([0, 0.5], [1, 0]),
+            [-√3 / 2, 0.5],
+            [√3 / 2, 0.5],
+        ),
+        (Circle([1, 0], 1), Line([0, 0], [1, 0]), [0, 0], [2, 0]),
+        (Circle([1.5, 0], 1), Line([0, 0], [1, 0]), [0.5, 0], [2.5, 0]),
+    ]
+
+        point_a, point_b = intersect(line, circle)
+
+        @test point_a == point_expected_a && point_b == point_expected_b
+    end
+end
