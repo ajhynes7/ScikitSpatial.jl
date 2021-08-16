@@ -1,5 +1,4 @@
 using Formatting
-using StaticArrays
 
 
 @testset "$type" for type in [Line, Plane]

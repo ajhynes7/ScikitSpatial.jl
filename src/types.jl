@@ -27,11 +27,7 @@ for (type, supertype) in zip([:Line, :Plane], [:AbstractLine, :AbstractPlane])
 
     @eval function $type(point::AbstractVector, vector::AbstractVector; kwargs...)
 
-        n_elements = length(point)
-        type_elements = eltype(point)
-
-        point_static = SVector{n_elements, type_elements}(point)
-        vector_static = SVector{n_elements, type_elements}(vector)
+        point_static, vector_static = _convert_to_svector([point, vector])
 
         return $type(point_static, vector_static; kwargs...)
     end
@@ -69,12 +65,7 @@ end
 
 
 function Hypersphere(point::AbstractVector, radius::Real)
-
-    n_elements = length(point)
-    type_elements = eltype(point)
-
-    point_static = SVector{n_elements, type_elements}(point)
-
+    point_static = _convert_to_svector(point)
     return Hypersphere(point_static, radius)
 end
 
