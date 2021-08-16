@@ -30,8 +30,8 @@ using Formatting
     @test_throws ArgumentError(message) type([0, 0], [0, 0])
 
     # The vector magnitude can be checked with a tolerance.
-    type([0.0, 0], [1e-2, 0])
-    @test_throws ArgumentError(message) type([0.0, 0], [1e-2, 0]; atol=1e-4)
+    type([0, 0], [1e-2, 0])
+    @test_throws ArgumentError(message) type([0, 0], [1e-2, 0]; atol=1e-4)
 end
 
 

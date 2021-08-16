@@ -12,7 +12,7 @@
     @test intersect(Line([0, 0, 0], [1, 1, 1]), Line([1, 1, 0], [0, 0, 1])) ≈ ones(3)
 
     line = Line([0, 0], [1, 1])
-    line_almost_parallel = Line([1.0, 0], [1, 1.01])
+    line_almost_parallel = Line([1, 0], [1, 1.01])
     intersect(line, line_almost_parallel)
 
     message = "The lines are parallel."
