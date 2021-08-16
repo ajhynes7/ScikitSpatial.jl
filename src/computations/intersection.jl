@@ -45,7 +45,7 @@ function intersect(plane::AbstractPlane, line::AbstractLine; kwargs...)
 end
 
 
-function intersect(circle::Circle{T}, line::Line{2, T}) where {T}
+function intersect(circle::Circle, line::AbstractLine)
 
     # Two points on the line.
     point_1 = line.point
@@ -85,7 +85,7 @@ function intersect(circle::Circle{T}, line::Line{2, T}) where {T}
 end
 
 
-function intersect(sphere::Sphere{T}, line::Line{3, T}) where {T}
+function intersect(sphere::Sphere, line::AbstractLine)
 
     vector_to_line = Vector(sphere.point, line.point)
     direction_unit = unit(line.direction)
