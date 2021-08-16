@@ -47,14 +47,3 @@ end
         )
     end
 end
-
-
-@testset "Circle" begin
-
-    circle = Circle([0, 0], 1)
-
-    @test circle.point == [0, 0]
-    @test circle.radius == 1
-
-    @test obj.point isa SVector{2, Int}
-end

@@ -37,11 +37,7 @@ export
 
 
 include("_util.jl")
-include("types.jl")
-include("measurement.jl")
-include("comparison.jl")
-include("projection.jl")
-include("intersection.jl")
-include("transformation.jl")
+include("types/base.jl")
+include("computations/base.jl")
 
 end
