@@ -10,6 +10,7 @@ export
     Line,
     Plane,
     Circle,
+    Sphere,
 
     # Measurement
     cosine_similarity,
