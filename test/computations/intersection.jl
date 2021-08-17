@@ -40,7 +40,7 @@ end
 
     # The line is almost parallel to the plane.
     # This throws an error if the tolerance is large enough.
-    line_almost_parallel = Line(zeros(3), [1, 0, 1e-2])
+    line_almost_parallel = Line([0, 0, 1], [1, 0, 1e-2])
     intersect(plane, line_almost_parallel)
     @test_throws ArgumentError(message) intersect(plane, line_almost_parallel; atol=1e-2)
 end
