@@ -10,6 +10,7 @@ export
     Line,
     Plane,
     Circle,
+    Sphere,
 
     # Measurement
     cosine_similarity,
@@ -35,11 +36,8 @@ export
     mean_center
 
 
-include("types.jl")
-include("measurement.jl")
-include("comparison.jl")
-include("projection.jl")
-include("intersection.jl")
-include("transformation.jl")
+include("_util.jl")
+include("types/base.jl")
+include("computations/base.jl")
 
 end

@@ -27,7 +27,7 @@ function intersect(line_a::AbstractLine, line_b::AbstractLine)
 end
 
 
-function intersect(line::AbstractLine, plane::AbstractPlane; kwargs...)
+function intersect(plane::AbstractPlane, line::AbstractLine; kwargs...)
 
     if are_perpendicular(line.direction, plane.normal; kwargs...)
         throw(ArgumentError("The line and plane are parallel."))
@@ -45,7 +45,7 @@ function intersect(line::AbstractLine, plane::AbstractPlane; kwargs...)
 end
 
 
-function intersect(line::AbstractLine, circle::AbstractCircle)
+function intersect(circle::Circle, line::AbstractLine)
 
     # Two points on the line.
     point_1 = line.point
@@ -80,6 +80,31 @@ function intersect(line::AbstractLine, circle::AbstractCircle)
     # Translate the intersection points back from origin circle to real circle.
     point_a = point_translated_a + circle.point
     point_b = point_translated_b + circle.point
+
+    return point_a, point_b
+end
+
+
+function intersect(sphere::Sphere, line::AbstractLine)
+
+    vector_to_line = Vector(sphere.point, line.point)
+    direction_unit = unit(line.direction)
+
+    dot = direction_unit ⋅ vector_to_line
+
+    discriminant = dot^2 - (norm(vector_to_line)^2 - sphere.radius^2)
+
+    if discriminant < 0
+        throw(ArgumentError("The line does not intersect the sphere."))
+    end
+
+    pm = [-1, 1]  # Array to compute minus/plus.
+    distances = -dot .+ √discriminant * pm
+
+    points = line.point .+ distances' .* direction_unit
+
+    point_a = points[:, 1]
+    point_b = points[:, 2]
 
     return point_a, point_b
 end
