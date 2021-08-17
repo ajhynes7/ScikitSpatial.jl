@@ -15,6 +15,7 @@ export
     # Measurement
     cosine_similarity,
     angle_between,
+    distance,
 
     # Comparison
     is_zero,
