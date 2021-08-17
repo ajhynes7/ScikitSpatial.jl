@@ -45,6 +45,31 @@ function intersect(plane::AbstractPlane, line::AbstractLine; kwargs...)
 end
 
 
+function intersect(plane_a::AbstractPlane, plane_b::AbstractPlane)
+
+    array_normals_stacked = vcat(plane_a.normal', plane_b.normal')
+
+    array_11 = 2 * Matrix(1I, 3, 3)
+	array_12 = array_normals_stacked'
+	array_21 = array_normals_stacked
+	array_22 = zeros(2, 2)
+
+	matrix = vcat(hcat(array_11, array_12), hcat(array_21, array_22))
+
+    dot_a = plane_a.point ⋅ plane_a.normal
+    dot_b = plane_b.point ⋅ plane_b.normal
+
+    y = [0, 0, 0, dot_a, dot_b]
+
+    solution = matrix \ y
+
+    point = solution[1:3]
+	direction = plane_a.normal × plane_b.normal
+
+    return Line(point, direction)
+end
+
+
 function intersect(circle::Circle, line::AbstractLine)
 
     # Two points on the line.

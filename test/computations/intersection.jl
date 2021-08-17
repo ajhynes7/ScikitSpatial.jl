@@ -68,3 +68,16 @@ end
         @test point_a == point_expected_a && point_b == point_expected_b
     end
 end
+
+@testset "Intersection of two planes" begin
+
+    for (plane_a, plane_b, line_expected) in [
+        (Plane(zeros(3), [0, 0, 1]), Plane(zeros(3), [0, 1, 0]), Line(zeros(3), [1, 0, 0])),
+        (Plane(zeros(3), [0, 0, 1]), Plane([0, 0, 1], [1, 0, 1]), Line([1, 0, 0], [0, 1, 0])),
+        (Plane(zeros(3), [-1, 1, 0]), Plane([8, 0, 0], [1, 1, 0]), Line([4, 4, 0], [0, 0, -1])),
+        (Plane([-1, 0, 0], [-1, 0, 1]), Plane([1, 0, 0], [1, 0, 1]), Line([0, 0, 1], [0, 1, 0])),
+    ]
+        line_intersection = intersect(plane_a, plane_b)
+        @test line_intersection ≈ line_expected
+    end
+end
