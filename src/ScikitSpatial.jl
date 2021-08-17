@@ -22,6 +22,7 @@ export
     are_parallel,
     are_perpendicular,
     are_coplanar,
+    on_surface,
 
     # Projection
     project,

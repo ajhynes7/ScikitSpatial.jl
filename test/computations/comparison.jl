@@ -118,3 +118,24 @@ end
     ]
     @test are_coplanar(points)
 end
+
+
+@testset "Point on surface of line" begin
+    for (point, line, bool_expected) in [
+        ([0, 0], Line([0, 0], [1, 0]), true)
+        ([2, 0], Line([0, 0], [5, 0]), true)
+        ([2, 0], Line([0, 0], [-5, 0]), true)
+        ([0, 0], Line([0, 0], [1, 1]), true)
+        ([1, 0], Line([0, 0], [1, 1]), false)
+        ([1, 0], Line([0, 0], [1, 1]), false)
+    ]
+        @test on_surface(point, line) == bool_expected
+    end
+
+    for (point, line, atol, bool_expected) in [
+        ([0, 1e-2], Line([0, 0], [1, 0]), 1e-2, true)
+        ([0, 1e-2], Line([0, 0], [1, 0]), 1e-3, false)
+    ]
+        @test on_surface(point, line; atol=atol) == bool_expected
+    end
+end

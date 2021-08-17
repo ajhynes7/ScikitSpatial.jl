@@ -40,3 +40,8 @@ function are_coplanar(line_a::AbstractLine, line_b::AbstractLine)
 
     return are_coplanar(points)
 end
+
+
+function on_surface(point::AbstractVector, line::AbstractLine; kwargs...)
+    return isapprox(distance(point, line), 0; kwargs...)
+end
