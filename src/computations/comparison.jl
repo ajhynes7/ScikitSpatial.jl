@@ -1,3 +1,6 @@
+import Base: isapprox
+
+
 function is_zero(v; kwargs...)
     isapprox(v ⋅ v, 0; kwargs...)
 end
@@ -44,4 +47,13 @@ end
 
 function on_surface(point::AbstractVector, line::AbstractLine; kwargs...)
     return isapprox(distance(point, line), 0; kwargs...)
+end
+
+
+function isapprox(line_a::AbstractLine, line_b::AbstractLine; kwargs...)
+
+    point_on_surface = on_surface(line_a.point, line_b; kwargs...)
+    directions_parallel = are_parallel(line_a.direction, line_b.direction; kwargs...)
+
+    return point_on_surface && directions_parallel
 end

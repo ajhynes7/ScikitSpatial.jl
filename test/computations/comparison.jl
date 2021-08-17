@@ -139,3 +139,28 @@ end
         @test on_surface(point, line; atol=atol) == bool_expected
     end
 end
+
+@testset "Lines are approximately equal" begin
+    for (line_a, line_b, bool_expected) in [
+        (Line([0, 0], [1, 0]), Line([0, 0], [1, 0]), true),
+        (Line([0, 0], [1, 0]), Line([0, 0], [5, 0]), true),
+        (Line([0, 0], [1, 0]), Line([0, 0], [-1, 0]), true),
+        (Line([0, 0], [1, 0]), Line([0, 0], [-5, 0]), true),
+        (Line([3, 0], [1, 0]), Line([0, 0], [-5, 0]), true),
+        (Line([-3, 0], [1, 0]), Line([0, 0], [-5, 0]), true),
+        (Line([0, 1], [1, 0]), Line([0, 0], [1, 0]), false),
+        (Line([0, -1], [1, 0]), Line([0, 0], [1, 0]), false),
+        (Line([0, 0], [1, 0]), Line([0, 0], [1, 1]), false),
+    ]
+        @test isapprox(line_a, line_b) == bool_expected
+    end
+
+    for (line_a, line_b, atol, bool_expected) in [
+        (Line([0, 1e-2], [1, 0]), Line([0, 0], [1, 0]), 1e-2, true),
+        (Line([0, 1e-2], [1, 0]), Line([0, 0], [1, 0]), 1e-3, false),
+        (Line([0, 0], [1, 1]), Line([0, 0], [1, 1.01]), 1e-2, true),
+        (Line([0, 0], [1, 1]), Line([0, 0], [1, 1.01]), 1e-5, false),
+    ]
+        @test isapprox(line_a, line_b; atol=atol) == bool_expected
+    end
+end
