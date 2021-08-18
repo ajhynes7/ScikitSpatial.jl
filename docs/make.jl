@@ -11,9 +11,13 @@ makedocs(
     doctest=true,
     pages = [
         "Introduction" => "index.md",
+        "Types" => [
+            "types/line.md",
+            "types/plane.md",
+        ],
         "Computations" => [
             "Measurement" => "computations/measurement.md",
             "Projection" => "computations/projection.md",
-        ]
+        ],
     ]
 )
