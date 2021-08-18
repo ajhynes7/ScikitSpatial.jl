@@ -15,12 +15,14 @@ export
     # Measurement
     cosine_similarity,
     angle_between,
+    distance,
 
     # Comparison
     is_zero,
     are_parallel,
     are_perpendicular,
     are_coplanar,
+    on_surface,
 
     # Projection
     project,

@@ -1,3 +1,6 @@
+import Base: isapprox
+
+
 function is_zero(v; kwargs...)
     isapprox(v ⋅ v, 0; kwargs...)
 end
@@ -39,4 +42,18 @@ function are_coplanar(line_a::AbstractLine, line_b::AbstractLine)
     points = hcat(point_a1, point_a2, point_b1, point_b2)
 
     return are_coplanar(points)
+end
+
+
+function on_surface(point::AbstractVector, line::AbstractLine; kwargs...)
+    return isapprox(distance(point, line), 0; kwargs...)
+end
+
+
+function isapprox(line_a::AbstractLine, line_b::AbstractLine; kwargs...)
+
+    point_on_surface = on_surface(line_a.point, line_b; kwargs...)
+    directions_parallel = are_parallel(line_a.direction, line_b.direction; kwargs...)
+
+    return point_on_surface && directions_parallel
 end
