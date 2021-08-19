@@ -1,7 +1,7 @@
 name = "ScikitSpatial"
 uuid = "e57cb7e2-dadc-4589-8217-6f26b584a9fb"
 authors = ["Andrew Hynes <andrewjhynes@gmail.com>"]
-version = "0.1.0"
+version = "0.2.0"
 
 [deps]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
