@@ -21,3 +21,8 @@ makedocs(
         ],
     ]
 )
+
+
+deploydocs(
+    repo = "github.com/ajhynes7/ScikitSpatial.jl.git",
+)
