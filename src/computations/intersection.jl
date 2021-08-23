@@ -1,6 +1,23 @@
-import ScikitSpatial: intersect
+import Base: intersect
 
 
+"""
+    intersect(line_a::AbstractLine, line_b::AbstractLine) -> AbstractVector
+
+Compute the intersection of two lines.
+
+The intersection of two lines is a point.
+
+# Examples
+
+```jldoctest
+julia> intersect(Line([0, 0], [1, 0]), Line([5, 5], [0, 1]))
+2-element StaticArrays.SVector{2, Float64} with indices SOneTo(2):
+ 5.0
+ 0.0
+```
+
+"""
 function intersect(line_a::AbstractLine, line_b::AbstractLine)
 
     if !are_coplanar(line_a, line_b)
