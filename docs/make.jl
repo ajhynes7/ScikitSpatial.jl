@@ -17,7 +17,10 @@ makedocs(
         ],
         "Computations" => [
             "Measurement" => "computations/measurement.md",
+            "Comparison" => "computations/comparison.md",
             "Projection" => "computations/projection.md",
+            "Intersection" => "computations/intersection.md",
+            "Transformation" => "computations/transformation.md",
         ],
     ]
 )
