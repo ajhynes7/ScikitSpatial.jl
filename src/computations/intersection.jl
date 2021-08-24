@@ -44,6 +44,48 @@ function intersect(line_a::AbstractLine, line_b::AbstractLine)
 end
 
 
+"""
+    intersect(plane::AbstractPlane, line::AbstractLine; kwargs...) -> AbstractVector
+
+Compute the intersection point of a plane and a line.
+
+An error is thrown if the plane and line are parallel
+(i.e., the plane normal is perpendicular to the line direction).
+The tolerances for this check can be passed as keyword arguments.
+
+# Examples
+
+```jldoctest
+julia> intersect(Plane([0,0,0], [0, 0, 1]), Line([0, 0, 1], [1, 1, 1]))
+3-element StaticArrays.SVector{3, Float64} with indices SOneTo(3):
+ -1.0
+ -1.0
+  0.0
+
+julia> intersect(Plane([0,0,0], [0, 0, 1]), Line([0, 0, 1], [1, 1, 0]))
+ERROR: ArgumentError: The line and plane are parallel.
+```
+
+Tolerances for the parallel check can be passed as keyword arguments.
+
+```
+julia> plane = Plane([0, 0, 0], [0, 0, 1]);
+
+julia> line = Line([0, 0, 1], [1, 1, 1e-3]);
+
+julia> intersect(plane, line)
+3-element StaticArrays.SVector{3, Float64} with indices SOneTo(3):
+ -1000.0
+ -1000.0
+     0.0
+
+julia> intersect(plane, line, atol=1e-3)
+ERROR: ArgumentError: The line and plane are parallel.
+
+julia> intersect(plane, line, rtol=1e-3)
+ERROR: ArgumentError: The line and plane are parallel.
+```
+"""
 function intersect(plane::AbstractPlane, line::AbstractLine; kwargs...)
 
     if are_perpendicular(line.direction, plane.normal; kwargs...)
@@ -62,7 +104,45 @@ function intersect(plane::AbstractPlane, line::AbstractLine; kwargs...)
 end
 
 
-function intersect(plane_a::AbstractPlane, plane_b::AbstractPlane)
+"""
+    intersect(plane_a::AbstractPlane, plane_b::AbstractPlane; kwargs...) -> AbstractLine
+
+Compute the intersection of two planes. The intersection of the planes is a line.
+
+An error is thrown if the planes are parallel.
+The tolerances for this check can be passed as keyword arguments.
+
+# Examples
+
+```jldoctest
+julia> plane_a = Plane([0, 0, 0], [0, 0, 1]);
+
+julia> plane_b = Plane([5, 3, 2], [1, 0, 0]);
+
+julia> intersect(plane_a, plane_b)
+Line{3, Float64}([5.0, 0.0, 0.0], [0.0, 1.0, 0.0])
+
+julia> plane_a = Plane([0, 0, 0], [0, 0, 1]);
+
+julia> plane_b = Plane([1, 1, 1], [0, 0, -3]);
+
+julia> intersect(plane_a, plane_b)
+ERROR: ArgumentError: The planes are parallel.
+
+julia> plane_a = Plane([0, 0, 0], [0, 0, 1]);
+
+julia> plane_b = Plane([1, 1, 1], [0, 1e-2, 1]);
+
+julia> intersect(plane_a, plane_b, atol=1e-3)
+ERROR: ArgumentError: The planes are parallel.
+```
+
+"""
+function intersect(plane_a::AbstractPlane, plane_b::AbstractPlane; kwargs...)
+
+    if are_parallel(plane_a.normal, plane_b.normal; kwargs...)
+        throw(ArgumentError("The planes are parallel."))
+    end
 
     array_normals_stacked = vcat(plane_a.normal', plane_b.normal')
 
@@ -87,6 +167,30 @@ function intersect(plane_a::AbstractPlane, plane_b::AbstractPlane)
 end
 
 
+"""
+    intersect(circle::Circle, line::AbstractLine) -> Tuple{StaticArrays.SVector, StaticArrays.SVector}
+
+Compute the intersection of a circle and a 2D line.
+
+The intersection is returned as two points (which can be the same).
+An error is thrown if the circle and line do not intersect.
+
+# Examples
+
+```jldoctest
+julia> circle = Circle([0, 0], 1);
+
+julia> intersect(circle, Line([0, 0], [1, 0]))
+([-1.0, 0.0], [1.0, 0.0])
+
+julia> intersect(circle, Line([0, 1], [1, 0]))
+([0.0, 1.0], [0.0, 1.0])
+
+julia> intersect(circle, Line([0, 2], [1, 0]))
+ERROR: ArgumentError: The circle and line do not intersect.
+```
+
+"""
 function intersect(circle::Circle, line::AbstractLine)
 
     # Two points on the line.
@@ -108,6 +212,10 @@ function intersect(circle::Circle, line::AbstractLine)
     determinant = x_1 * y_2 - x_2 * y_1
     discriminant = circle.radius^2 * d_r_squared - determinant^2
 
+    if discriminant < 0
+        throw(ArgumentError("The circle and line do not intersect."))
+    end
+
     root = √discriminant
 
     mp = [-1, 1]  # Array to compute minus/plus.
@@ -127,6 +235,30 @@ function intersect(circle::Circle, line::AbstractLine)
 end
 
 
+"""
+    intersect(sphere::Sphere, line::AbstractLine) -> Tuple{StaticArrays.SVector, StaticArrays.SVector}
+
+Compute the intersection of a sphere and a 3D line.
+
+The intersection is returned as two points (which can be the same).
+An error is thrown if the sphere and line do not intersect.
+
+# Examples
+
+```jldoctest
+julia> sphere = Sphere([0, 0, 0], 1);
+
+julia> intersect(sphere, Line([0, 0, 0], [1, 0, 0]))
+([-1.0, 0.0, 0.0], [1.0, 0.0, 0.0])
+
+julia> intersect(sphere, Line([0, 0, -1], [1, 0, 0]))
+([0.0, 0.0, -1.0], [0.0, 0.0, -1.0])
+
+julia> intersect(sphere, Line([0, 1, 1], [1, 0, 0]))
+ERROR: ArgumentError: The sphere and line do not intersect.
+```
+
+"""
 function intersect(sphere::Sphere, line::AbstractLine)
 
     vector_to_line = Vector(sphere.point, line.point)
@@ -137,7 +269,7 @@ function intersect(sphere::Sphere, line::AbstractLine)
     discriminant = dot^2 - (norm(vector_to_line)^2 - sphere.radius^2)
 
     if discriminant < 0
-        throw(ArgumentError("The line does not intersect the sphere."))
+        throw(ArgumentError("The sphere and line do not intersect."))
     end
 
     pm = [-1, 1]  # Array to compute minus/plus.
