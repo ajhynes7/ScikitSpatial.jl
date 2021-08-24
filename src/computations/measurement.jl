@@ -86,12 +86,11 @@ end
 
 
 """
-    distance(point_a::AbstractVector, point_b::AbstractVector) -> Float
+    distance(point_a::AbstractVector, line::AbstractLine) -> Float
 
 Compute the distance from a point to a line.
 
 This is the distance from the point to its projection on the line.
-
 
 # Examples
 
