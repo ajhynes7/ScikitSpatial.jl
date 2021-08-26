@@ -67,6 +67,29 @@ end
 
         @test point_a == point_expected_a && point_b == point_expected_b
     end
+
+    template = "The {} and line do not intersect."
+
+    for (circle_or_sphere, line) in [
+        (Circle([0, 0], 1), Line([0, 2], [1, 0])),
+        (Sphere([0, 0, 0], 1), Line([0, 2, 0], [1, 0, 0])),
+        (Circle([-5, 2], 1), Line([0, 0], [1, 0])),
+        (Sphere([0, 0, 3], 1), Line([0, 0, 0], [1, 0, 0])),
+        (Circle([0, 0], 0.5), Line([0, 1], [1, 0])),
+        (Sphere([0, 0, 0], 0.5), Line([0, 1, 0], [1, 0, 0])),
+        (Sphere([0, 0, 0], 1), Line([0, 1, 1], [1, 0, 0])),
+    ]
+
+        if circle_or_sphere isa Circle
+            name = "circle"
+        else
+            name = "sphere"
+        end
+
+        message = format(template, name)
+
+        @test_throws ArgumentError(message) intersect(circle_or_sphere, line)
+    end
 end
 
 @testset "Intersection of two planes" begin
@@ -79,5 +102,19 @@ end
     ]
         line_intersection = intersect(plane_a, plane_b)
         @test line_intersection ≈ line_expected
+    end
+
+    message = "The planes are parallel."
+    for (plane_a, plane_b, atol, throws_error) in [
+        (Plane(zeros(3), [0, 0, 1]), Plane(zeros(3), [0, 0, 1]), 0, true),
+        (Plane(zeros(3), [0, 0, 1]), Plane(zeros(3), [0, 0, -5]), 0, true),
+        (Plane(zeros(3), [0, 0, 1]), Plane(zeros(3), [0, 1e-2, 1]), 0, false),
+        (Plane(zeros(3), [0, 0, 1]), Plane(zeros(3), [0, 1e-2, 1]), 1e-3, true),
+    ]
+        if throws_error
+            @test_throws ArgumentError(message) intersect(plane_a, plane_b, atol=atol)
+        else
+            intersect(plane_a, plane_b, atol=atol)
+        end
     end
 end
