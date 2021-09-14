@@ -2,6 +2,12 @@
 
 The `Circle` and `Sphere` types are defined by a point (representing the centre), and a radius.
 
+```@meta
+DocTestSetup = quote
+    using ScikitSpatial
+end
+```
+
 ```jldoctest
 julia> circle = Circle([0,0], 1)
 Circle{Int64}([0, 0], 1)

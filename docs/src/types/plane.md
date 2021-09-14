@@ -2,9 +2,13 @@
 
 A plane is defined by a point and a normal vector.
 
-```jldoctest plane
-julia> using ScikitSpatial
+```@meta
+DocTestSetup = quote
+    using ScikitSpatial
+end
+```
 
+```jldoctest plane
 julia> plane = Plane([0, 0, 0], [0, 0, 1])
 Plane{3, Int64}([0, 0, 0], [0, 0, 1])
 

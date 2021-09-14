@@ -2,9 +2,13 @@
 
 A line is defined by a point and a direction vector.
 
-```jldoctest line
-julia> using ScikitSpatial
+```@meta
+DocTestSetup = quote
+    using ScikitSpatial
+end
+```
 
+```jldoctest line
 julia> line = Line([0, 0], [1, 0])
 Line{2, Int64}([0, 0], [1, 0])
 
