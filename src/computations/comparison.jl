@@ -119,12 +119,56 @@ u \cdot v = 0
 
 Keyword arguments can be passed along to `isapprox`.
 
+
+# Examples
+
+```jldoctest
+julia> are_perpendicular([1, 0], [1, 1])
+false
+
+julia> are_perpendicular([1, 0], [0, 1])
+true
+
+julia> are_perpendicular([1, 0], [0, -5])
+true
+
+julia> are_perpendicular([1, 0], [1e-2, 1])
+false
+
+julia> are_perpendicular([1, 0], [1e-2, 1], atol=1e-2)
+true
+```
+
 """
 function are_perpendicular(u, v; kwargs...)
     return isapprox(u ⋅ v, 0; kwargs...)
 end
 
 
+"""
+    are_coplanar(points::AbstractMatrix) -> Bool
+
+Check if multiple points are coplanar.
+
+
+# Examples
+
+```jldoctest
+julia> are_coplanar([0 0; 1 1; 2 2; 3 3]')
+true
+
+julia> are_coplanar([1 5; 1 -1; 9 22; 5 7]')
+true
+
+julia> are_coplanar([4 0 6; 3 0 0; 2 0 12; 5 0 -4]')
+true
+
+julia> are_coplanar([4 1 6; 3 0 0; 2 0 12; 5 0 -4]')
+false
+
+```
+
+"""
 function are_coplanar(points::AbstractMatrix)
     point_1 = points[:, 1]
     vectors = points .- point_1
@@ -133,6 +177,28 @@ function are_coplanar(points::AbstractMatrix)
 end
 
 
+"""
+    are_coplanar(line_a::AbstractLine, line_b::AbstractLine) -> Bool
+
+Check if multiple points are coplanar.
+
+
+# Examples
+
+```jldoctest
+julia> line = Line([0, 0, 0], [1, 0, 0]);
+
+julia> are_coplanar(line, Line([0, 0, 0], [2, 5, 3]))
+true
+
+julia> are_coplanar(line, Line([1, 0, 0], [1, 1, 1]))
+true
+
+julia> are_coplanar(line, Line([0, 1, 0], [1, 1, 1]))
+false
+```
+
+"""
 function are_coplanar(line_a::AbstractLine, line_b::AbstractLine)
 
     point_a1 = line_a.point
@@ -147,11 +213,73 @@ function are_coplanar(line_a::AbstractLine, line_b::AbstractLine)
 end
 
 
+"""
+    on_surface(point::AbstractVector, line::AbstractLine; kwargs...) -> Bool
+
+Check if a point is on a line.
+
+
+# Examples
+
+```jldoctest
+julia> line = Line([0, 0], [1, 0]);
+
+julia> on_surface([0, 0], line)
+true
+
+julia> on_surface([-5, 0], line)
+true
+
+julia> on_surface([1, 1], line)
+false
+
+julia> on_surface([0, 1e-2], line)
+false
+
+julia> on_surface([0, 1e-2], line, atol=1e-2)
+true
+```
+
+"""
 function on_surface(point::AbstractVector, line::AbstractLine; kwargs...)
     return isapprox(distance(point, line), 0; kwargs...)
 end
 
 
+"""
+    isapprox(line_a::AbstractLine, line_b::AbstractLine; kwargs...) -> Bool
+
+Check if two lines are approximately equal.
+
+
+# Examples
+
+```
+julia> line = Line([0, 0], [1, 0]);
+
+julia> isapprox(line, Line([0, 0], [1, 0]))
+true
+
+julia> isapprox(line, Line([0, 0], [5, 0]))
+true
+
+julia> isapprox(line, Line([-5, 0], [-2, 0]))
+true
+
+julia> isapprox(line, Line([-5, 1], [-2, 0]))
+false
+
+julia> isapprox(line, Line([1, 1], [5, 5]))
+false
+
+julia> isapprox(line, Line([1, 1e-2], [5, 0])
+false
+
+julia> isapprox(line, Line([1, 1e-2], [5, 0]), atol=1e-2)
+true
+```
+
+"""
 function isapprox(line_a::AbstractLine, line_b::AbstractLine; kwargs...)
 
     point_on_surface = on_surface(line_a.point, line_b; kwargs...)
